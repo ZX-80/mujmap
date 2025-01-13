@@ -407,10 +407,7 @@ pub fn sync(
         if !args.dry_run {
             // Collect the local messages which will be destroyed. We will add to this list any
             // messages with new blob IDs.
-            let mut destroyed_local_emails: Vec<&local::Email> = destroyed_ids
-                .into_iter()
-                .flat_map(|x| local_emails.get(&x))
-                .collect();
+            let mut destroyed_local_emails: Vec<&local::Email> =  Vec::new();
 
             // Symlink the new mail files into the maildir...
             for new_email in new_emails.values() {
@@ -591,7 +588,7 @@ pub fn sync(
         }
     }
 
-    if !args.dry_run {
+    if false {
         // Ensure that for every tag, there exists a corresponding mailbox.
         let tags_with_missing_mailboxes: Vec<String> = local
             .all_tags()
@@ -640,7 +637,7 @@ pub fn sync(
     writeln!(stdout, " ({} changed)", updated_local_emails.len()).context(LogSnafu {})?;
     stdout.flush().context(LogSnafu {})?;
 
-    if !args.dry_run {
+    if false {
         remote
             .update(&updated_local_emails, &mailboxes, &config.tags)
             .context(PushChangesSnafu {})?;
